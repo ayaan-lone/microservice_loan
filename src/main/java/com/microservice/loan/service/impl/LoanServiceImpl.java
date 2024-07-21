@@ -35,6 +35,7 @@ public class LoanServiceImpl implements LoanService {
 		if (!isUserEligibleForLoan(userId)) {
 			throw new LoanApplicationException(HttpStatus.BAD_REQUEST, ConstantUtil.USER_NOT_ELIGIBLE);
 		}
+		
 		// Logic to issue loan
 		Loan loan = new Loan();
 		loan.setUserId(userId);
@@ -49,4 +50,5 @@ public class LoanServiceImpl implements LoanService {
 		Optional<Loan> loan = loanRepository.findByUserId(userId);
 		return loan.isPresent();
 	}
+
 }
