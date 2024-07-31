@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.microservice.loan.client.UserClientHandler;
 import com.microservice.loan.dao.LoanRepository;
 import com.microservice.loan.entity.Loan;
 import com.microservice.loan.exception.LoanApplicationException;
@@ -20,14 +19,11 @@ public class LoanServiceImpl implements LoanService {
 	private String verifyUserUrl;
 
 	@Autowired
-	private UserClientHandler userClientHandler;
-
-	@Autowired
 	private LoanRepository loanRepository;
 
 	@Override
 	public boolean isUserEligibleForLoan(Long userId) {
-		return !isUserAlreadyLoaned(userId) && userClientHandler.verifyUser(userId);
+		return !isUserAlreadyLoaned(userId);
 	}
 
 	@Override

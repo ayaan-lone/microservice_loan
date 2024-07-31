@@ -16,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.microservice.loan.client.UserClientHandler;
 import com.microservice.loan.dao.LoanRepository;
 import com.microservice.loan.entity.Loan;
 import com.microservice.loan.exception.LoanApplicationException;
@@ -28,9 +27,6 @@ public class LoanServiceImplTest {
 
     @InjectMocks
     private LoanServiceImpl loanService;
-
-    @Mock
-    private UserClientHandler userClientHandler;
 
     @Mock
     private LoanRepository loanRepository;
@@ -46,7 +42,7 @@ public class LoanServiceImplTest {
     @Test
     void testIsUserEligibleForLoan_UserIsEligible() {
         when(loanRepository.findByUserId(anyLong())).thenReturn(Optional.empty());
-        when(userClientHandler.verifyUser(anyLong())).thenReturn(true);
+       
 
         boolean result = loanService.isUserEligibleForLoan(1L);
         assertTrue(result);
@@ -65,7 +61,7 @@ public class LoanServiceImplTest {
     @Test
     void testIsUserEligibleForLoan_UserNotVerified() {
         when(loanRepository.findByUserId(anyLong())).thenReturn(Optional.empty());
-        when(userClientHandler.verifyUser(anyLong())).thenReturn(false);
+      
 
         boolean result = loanService.isUserEligibleForLoan(1L);
         assertFalse(result);
@@ -74,7 +70,7 @@ public class LoanServiceImplTest {
     @Test
     void testIssueLoan_UserNotEligible() {
         when(loanRepository.findByUserId(anyLong())).thenReturn(Optional.empty());
-        when(userClientHandler.verifyUser(anyLong())).thenReturn(false);
+      
 
         LoanApplicationException exception = assertThrows(LoanApplicationException.class, () -> {
             loanService.issueLoan(1L, 1000.0);
@@ -86,7 +82,7 @@ public class LoanServiceImplTest {
     @Test
     void testIssueLoan_UserEligible() throws LoanApplicationException {
         when(loanRepository.findByUserId(anyLong())).thenReturn(Optional.empty());
-        when(userClientHandler.verifyUser(anyLong())).thenReturn(true);
+
 
         String result = loanService.issueLoan(1L, 1000.0);
 
